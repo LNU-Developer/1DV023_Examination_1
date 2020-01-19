@@ -6,11 +6,11 @@
  */
 
 'use strict'
+const rp = require('request-promise')
 
-class Fetcher {
-  constructor () {}
-  gatherInfo () {}
+function HTMLfetcher (link) {
+  return rp(link)
 }
 
 // Exports
-module.exports = Fetcher
+module.exports = HTMLfetcher
