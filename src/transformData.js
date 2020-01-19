@@ -1,5 +1,5 @@
 /**
- * Compare the available days
+ * Module to transform data
  *
  * @author Rickard Marjanovic
  * @version 1.0.0
@@ -39,9 +39,26 @@ function checkDays (html) {
     availableDays.push(7)
   }
 
-  let available = []
-
-  return available
+  return availableDays
 }
 
-module.exports = checkDays
+function checkShows (availableShowsRaw) {
+  let availableShows = []
+  let freeSeats = []
+  for (let i = 0; i < availableShowsRaw.length; i++) {
+    availableShows.push(availableShowsRaw[i].pop())
+    availableShows.push(availableShowsRaw[i].pop())
+    availableShows.push(availableShowsRaw[i].pop())
+  }
+
+  availableShows.forEach(element => {
+    if (element.status === 1) {
+      freeSeats.push(element)
+    }
+  })
+
+  return freeSeats
+}
+
+module.exports.checkDays = checkDays
+module.exports.checkShows = checkShows

@@ -9,7 +9,7 @@
 
 // Importing modules in the applications
 const fetcher = require('./src/fetcher')
-const dayChecker = require('./src/dayChecker')
+const transformData = require('./src/transformData')
 
 // Global variables
 let links = []
@@ -30,7 +30,7 @@ async function scrapeDays () {
   let calendarLinks = fetcher.linkExtractor(await fetcher.HTMLfetcher(links[0]))
   console.log(calendarLinks)
   let calendarHTML = [await fetcher.HTMLfetcher(links[0] + calendarLinks[0]), await fetcher.HTMLfetcher(links[0] + calendarLinks[1]), await fetcher.HTMLfetcher(links[0] + calendarLinks[2])]
-  let availableDays = dayChecker(calendarHTML)
+  let availableDays = transformData.checkDays(calendarHTML)
   console.log(availableDays)
   if (availableDays.length !== 0) {
     process.stdout.write(`OK\n`)
@@ -41,7 +41,27 @@ async function scrapeDays () {
 }
 
 async function scrapeCinema (availableDays) {
+  process.stdout.write(`Scraping showtimes...`)
 
+  let availableShowsRaw = []
+  for (let i = 0; i < availableDays.length; i++) {
+    for (let y = 1; y <= 3; y++) {
+      availableShowsRaw.push(JSON.parse(await fetcher.HTMLfetcher(links[1] + `/check?day=0${availableDays[i]}&movie=0${y}`)))
+    }
+  }
+  let freeSeats = transformData.checkShows(availableShowsRaw)
+  console.log(freeSeats)
+  if (freeSeats.length !== 0) {
+    process.stdout.write(`OK\n`)
+    scrapeDinner(freeSeats)
+  } else {
+    process.stdout.write(`No available movies\n`)
+  }
+}
+
+async function scrapeDinner (freeSeats) {
+  process.stdout.write(`Scraping possible reservations...`)
+  process.stdout.write(`OK\n`)
 }
 
 scrapeLinks()
