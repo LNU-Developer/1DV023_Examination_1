@@ -13,15 +13,31 @@ function HTMLfetcher (link) {
   return rp(link)
 }
 
-function linkExtractor (html) {
-  let links = []
+function elementExtractor (html, element = 'a') {
+  let data = []
   let dom = new JSDOM(html)
-  for (let i = 0; i < dom.window.document.getElementsByTagName('a').length; i++) {
-    links[i] = dom.window.document.getElementsByTagName('a')[i].href
+  for (let i = 0; i < dom.window.document.getElementsByTagName(element).length; i++) {
+    data[i] = dom.window.document.getElementsByTagName(element)[i]
   }
-  return links
+  return data
+}
+
+function loginDinner (url) {
+  let options = { method: 'POST',
+    uri: url + '/login',
+    simple: false,
+    form: {
+      'username': 'zeke',
+      'password': 'coys',
+      'submit': 'login'
+    },
+    followAllRedirects: true,
+    jar: true
+  }
+  return rp(options)
 }
 
 // Exports
 module.exports.HTMLfetcher = HTMLfetcher
-module.exports.linkExtractor = linkExtractor
+module.exports.elementExtractor = elementExtractor
+module.exports.loginDinner = loginDinner
