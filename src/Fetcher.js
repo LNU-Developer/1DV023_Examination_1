@@ -23,7 +23,8 @@ function elementExtractor (html, element = 'a') {
 }
 
 function loginDinner (url) {
-  let options = { method: 'POST',
+  let options = {
+    method: 'POST',
     uri: url + '/login',
     simple: false,
     form: {

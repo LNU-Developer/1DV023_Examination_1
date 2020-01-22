@@ -77,7 +77,6 @@ function checkReservations (dinnerOptions, freeSeats) {
     }
     cleanDinnerOptions[i].time = cleanDinnerOptions[i].time.substr(0, 2) + ':' + '00'
   }
-  console.log(cleanDinnerOptions)
 
   for (let i = 0; i < cleanDinnerOptions.length; i++) {
     for (let y = 0; y < freeSeats.length; y++) {
@@ -95,9 +94,9 @@ function convertMessage (possibleChoices) {
     if (element.day === '05') {
       element.day = 'Friday'
     } else if (element.day === '06') {
-      element.dat = 'Saturday'
+      element.day = 'Saturday'
     } else if (element.day === '07') {
-      element.dat = 'Sunday'
+      element.day = 'Sunday'
     }
     if (element.movie === '01') {
       element.movie = 'The Flying Deuces'

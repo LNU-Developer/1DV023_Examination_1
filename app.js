@@ -10,6 +10,7 @@
 // Importing modules in the applications
 const fetcher = require('./src/fetcher')
 const transformData = require('./src/transformData')
+const reservationBooker = require('./src/reservationBooker')
 
 // Global variables
 let links = []
@@ -20,18 +21,15 @@ const startLink = process.argv.slice(2)[1] || 'http://vhost3.lnu.se:20080/weeken
 async function scrapeLinks () {
   process.stdout.write(`Scraping links... `)
   links = fetcher.elementExtractor(await fetcher.HTMLfetcher(startLink))
-  console.log(links)
   process.stdout.write(`OK\n`)
   scrapeDays()
 }
 
 async function scrapeDays () {
-  process.stdout.write(`Scraping available days...`)
+  process.stdout.write(`Scraping available days... `)
   const calendarLinks = fetcher.elementExtractor(await fetcher.HTMLfetcher(links[0].href))
-  console.log(calendarLinks)
   const calendarHTML = [await fetcher.HTMLfetcher(links[0].href + calendarLinks[0].href), await fetcher.HTMLfetcher(links[0].href + calendarLinks[1].href), await fetcher.HTMLfetcher(links[0].href + calendarLinks[2].href)]
   const availableDays = transformData.checkDays(calendarHTML)
-  console.log(availableDays)
   if (availableDays.length !== 0) {
     process.stdout.write(`OK\n`)
     scrapeCinema(availableDays)
@@ -41,7 +39,7 @@ async function scrapeDays () {
 }
 
 async function scrapeCinema (availableDays) {
-  process.stdout.write(`Scraping showtimes...`)
+  process.stdout.write(`Scraping showtimes... `)
 
   let availableShowsRaw = []
   for (let i = 0; i < availableDays.length; i++) {
@@ -50,7 +48,6 @@ async function scrapeCinema (availableDays) {
     }
   }
   const freeSeats = transformData.checkShows(availableShowsRaw)
-  console.log(freeSeats)
   if (freeSeats.length !== 0) {
     process.stdout.write(`OK\n`)
     scrapeDinner(freeSeats)
@@ -60,10 +57,9 @@ async function scrapeCinema (availableDays) {
 }
 
 async function scrapeDinner (freeSeats) {
-  process.stdout.write(`Scraping possible reservations...`)
+  process.stdout.write(`Scraping possible reservations... `)
   const dinnerOptions = fetcher.elementExtractor(await fetcher.loginDinner(links[2].href), 'input')
   const possibleChoices = transformData.checkReservations(dinnerOptions, freeSeats)
-  console.log(possibleChoices)
   if (possibleChoices.length !== 0) {
     process.stdout.write(`OK\n`)
     process.stdout.write(`\n`)
@@ -73,9 +69,23 @@ async function scrapeDinner (freeSeats) {
     message.forEach(element => {
       console.log(element)
     })
+    process.stdout.write(`\n`)
+    bookReservation(possibleChoices)
   } else {
     process.stdout.write(`No available reservations\n`)
   }
+  process.stdout.write(`\n`)
 }
 
+function bookReservation (possibleChoices) {
+  const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout
+  })
+
+  readline.question(`Which table option do you want to book? 0(none)/1/2...)`, async (option) => {
+    await reservationBooker.makeReservation(links[2].href, option, possibleChoices)
+    readline.close()
+  })
+}
 scrapeLinks()
