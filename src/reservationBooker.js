@@ -1,8 +1,23 @@
+/**
+ * Module to make reservations
+ *
+ * @author Rickard Marjanovic
+ * @version 1.0.0
+ */
+
 'use strict'
 
+// Importing modules in the applications
 const rp = require('request-promise')
 const JSDOM = require('jsdom').JSDOM
 
+/**
+ *Function to make a reservation based on user choices
+ *
+ * @param {Array} link - Array of links to scrape
+ * @param {Number} option - User selection (0, 1, 2... etc)
+ * @param {Array} possibleChoices - All possible choices that when the friends can meet/perform activities
+ */
 async function makeReservation (link, option, possibleChoices) {
   process.stdout.write(`\n`)
   if (possibleChoices.length >= option && option !== 0) {
@@ -44,4 +59,5 @@ async function makeReservation (link, option, possibleChoices) {
   }
 }
 
+// Exports
 module.exports.makeReservation = makeReservation

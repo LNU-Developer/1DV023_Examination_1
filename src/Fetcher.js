@@ -6,13 +6,28 @@
  */
 
 'use strict'
+
+// Importing modules in the applications
 const rp = require('request-promise')
 const JSDOM = require('jsdom').JSDOM
 
+/**
+ *Function to fetch HTTP from a link
+ *
+ * @param {string} link - Link that the function should fetch http from
+ * @returns {string} - HTML string
+ */
 function HTMLfetcher (link) {
   return rp(link)
 }
 
+/**
+ *Function to fetch a specific element from a HTML string
+ *
+ * @param {string} html - HTML where an element shall be extracted
+ * @param {string} [element='a'] - the type of element to be extracted (if none is selected then a is extraced)
+ * @returns {Array} - Returns the an array of the specific node
+ */
 function elementExtractor (html, element = 'a') {
   let data = []
   let dom = new JSDOM(html)
@@ -22,6 +37,12 @@ function elementExtractor (html, element = 'a') {
   return data
 }
 
+/**
+ *Function to log in to HTTP page using a form and automatically redirect to get the HTML of the redirect
+ *
+ * @param {string} url - Link to the login page
+ * @returns {string} - Returns a HTML of the redirected page after login
+ */
 function loginDinner (url) {
   let options = {
     method: 'POST',

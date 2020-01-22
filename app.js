@@ -18,6 +18,10 @@ let links = []
 // Application start
 const startLink = process.argv.slice(2)[1] || 'http://vhost3.lnu.se:20080/weekend'
 
+/**
+ *Function to fetch starting links
+ *
+ */
 async function scrapeLinks () {
   process.stdout.write(`Scraping links... `)
   links = fetcher.elementExtractor(await fetcher.HTMLfetcher(startLink))
@@ -25,6 +29,10 @@ async function scrapeLinks () {
   scrapeDays()
 }
 
+/**
+ *Function to scrape when all friends are available
+ *
+ */
 async function scrapeDays () {
   process.stdout.write(`Scraping available days... `)
   const calendarLinks = fetcher.elementExtractor(await fetcher.HTMLfetcher(links[0].href))
@@ -38,6 +46,11 @@ async function scrapeDays () {
   }
 }
 
+/**
+ *Function to scrape when there are free cinema seats based on the friends schedule
+ *
+ * @param {Array} availableDays - all days when the friends are available at the same time
+ */
 async function scrapeCinema (availableDays) {
   process.stdout.write(`Scraping showtimes... `)
 
@@ -56,6 +69,11 @@ async function scrapeCinema (availableDays) {
   }
 }
 
+/**
+ *Function to scrape when there is a free table based on when the friends have available seats and to show available options
+ *
+ * @param {Array} freeSeats - Available cinema seats
+ */
 async function scrapeDinner (freeSeats) {
   process.stdout.write(`Scraping possible reservations... `)
   const dinnerOptions = fetcher.elementExtractor(await fetcher.loginDinner(links[2].href), 'input')
@@ -77,6 +95,11 @@ async function scrapeDinner (freeSeats) {
   process.stdout.write(`\n`)
 }
 
+/**
+ *Function to enable user to book a reservation based on input
+ *
+ * @param {Array} possibleChoices - The array containing all possible userchoices
+ */
 function bookReservation (possibleChoices) {
   const readline = require('readline').createInterface({
     input: process.stdin,

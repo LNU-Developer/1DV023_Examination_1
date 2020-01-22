@@ -6,9 +6,16 @@
  */
 
 'use strict'
+
 // Importing modules in the applications
 const JSDOM = require('jsdom').JSDOM
 
+/**
+ *Function to check the HTML pages and scrape when the specific person is available
+ *
+ * @param {string} html - HTML string of the page to be scraped
+ * @returns {Array} - Returns an array of available days
+ */
 function checkDays (html) {
   let dom = []
   let tds = []
@@ -42,6 +49,12 @@ function checkDays (html) {
   return availableDays
 }
 
+/**
+ *Function to scrape which possible shows can be watched by all friends
+ *
+ * @param {Array} availableShowsRaw - Array of available shows on a specific day
+ * @returns {Array} - Array of shows that the friends can watch together
+ */
 function checkShows (availableShowsRaw) {
   let availableShows = []
   let freeSeats = []
@@ -60,6 +73,13 @@ function checkShows (availableShowsRaw) {
   return freeSeats
 }
 
+/**
+ *Function to get all available options based on available reservations and available cinema seats
+ *
+ * @param {string} dinnerOptions - Extracted input elements of available reservations
+ * @param {Array} freeSeats - Extracted array of available seats
+ * @returns {Array} - Returns an array of possible choices
+ */
 function checkReservations (dinnerOptions, freeSeats) {
   let possibleChoices = []
   let cleanDinnerOptions = []
@@ -88,6 +108,12 @@ function checkReservations (dinnerOptions, freeSeats) {
   return possibleChoices
 }
 
+/**
+ *Function to convert array of possible choice to correct format for reporting to user
+ *
+ * @param {Array} possibleChoices - Possible choices in raw format
+ * @returns {Array} - Returns possible choices in correct format for reporting to user
+ */
 function convertMessage (possibleChoices) {
   let message = []
   possibleChoices.forEach(element => {
@@ -110,6 +136,7 @@ function convertMessage (possibleChoices) {
   return message
 }
 
+// Exports
 module.exports.checkDays = checkDays
 module.exports.checkShows = checkShows
 module.exports.checkReservations = checkReservations
