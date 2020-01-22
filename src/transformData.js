@@ -17,9 +17,9 @@ const JSDOM = require('jsdom').JSDOM
  * @returns {Array} - Returns an array of available days.
  */
 function checkDays (html) {
-  let dom = []
-  let tds = []
-  let availableDays = []
+  const dom = []
+  const tds = []
+  const availableDays = []
 
   for (let i = 0; i < html.length; i++) {
     dom[i] = new JSDOM(html[i])
@@ -56,8 +56,8 @@ function checkDays (html) {
  * @returns {Array} - Array of shows that the friends can watch together.
  */
 function checkShows (availableShowsRaw) {
-  let availableShows = []
-  let freeSeats = []
+  const availableShows = []
+  const freeSeats = []
   for (let i = 0; i < availableShowsRaw.length; i++) {
     availableShows.push(availableShowsRaw[i].pop())
     availableShows.push(availableShowsRaw[i].pop())
@@ -81,8 +81,8 @@ function checkShows (availableShowsRaw) {
  * @returns {Array} - Returns an array of possible choices.
  */
 function checkReservations (dinnerOptions, freeSeats) {
-  let possibleChoices = []
-  let cleanDinnerOptions = []
+  const possibleChoices = []
+  const cleanDinnerOptions = []
 
   for (let i = 0; i < dinnerOptions.length; i++) {
     cleanDinnerOptions[i] = { day: dinnerOptions[i].value.substr(0, 3), time: dinnerOptions[i].value.substr(3) }
@@ -115,7 +115,7 @@ function checkReservations (dinnerOptions, freeSeats) {
  * @returns {Array} - Returns possible choices in correct format for reporting to user.
  */
 function convertMessage (possibleChoices) {
-  let message = []
+  const message = []
   possibleChoices.forEach(element => {
     if (element.day === '05') {
       element.day = 'Friday'

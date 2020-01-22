@@ -19,16 +19,16 @@ const JSDOM = require('jsdom').JSDOM
  * @param {Array} possibleChoices - All possible choices that when the friends can meet/perform activities.
  */
 async function makeReservation (link, option, possibleChoices) {
-  process.stdout.write(`\n`)
+  process.stdout.write('\n')
   if (possibleChoices.length >= option && option !== 0) {
     const jar = rp.jar()
-    let options = {
+    const options = {
       method: 'POST',
       uri: link + '/login',
       form: {
-        'username': 'zeke',
-        'password': 'coys',
-        'submit': 'login'
+        username: 'zeke',
+        password: 'coys',
+        submit: 'login'
       },
       followAllRedirects: true,
       jar: jar,
@@ -40,15 +40,15 @@ async function makeReservation (link, option, possibleChoices) {
         method: 'POST',
         uri: link + '/login/booking',
         form: {
-          'group1': `${value}`
+          group1: `${value}`
         },
         jar: jar,
         headers: {
           'X-CSRF-TOKEN': 'Jishgeny6753ydiayYHSjay0918'
         }
       })
-      let data = []
-      let dom = new JSDOM(response)
+      const data = []
+      const dom = new JSDOM(response)
       for (let i = 0; i < dom.window.document.getElementsByTagName('h1').length; i++) {
         data[i] = dom.window.document.getElementsByTagName('h1')[i]
       }

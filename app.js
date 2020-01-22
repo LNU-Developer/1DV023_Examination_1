@@ -23,9 +23,9 @@ const startLink = process.argv.slice(2)[1] || 'http://vhost3.lnu.se:20080/weeken
  *
  */
 async function scrapeLinks () {
-  process.stdout.write(`Scraping links... `)
+  process.stdout.write('Scraping links... ')
   links = fetcher.elementExtractor(await fetcher.HTMLfetcher(startLink))
-  process.stdout.write(`OK\n`)
+  process.stdout.write('OK\n')
   scrapeDays()
 }
 
@@ -34,15 +34,15 @@ async function scrapeLinks () {
  *
  */
 async function scrapeDays () {
-  process.stdout.write(`Scraping available days... `)
+  process.stdout.write('Scraping available days... ')
   const calendarLinks = fetcher.elementExtractor(await fetcher.HTMLfetcher(links[0].href))
   const calendarHTML = [await fetcher.HTMLfetcher(links[0].href + calendarLinks[0].href), await fetcher.HTMLfetcher(links[0].href + calendarLinks[1].href), await fetcher.HTMLfetcher(links[0].href + calendarLinks[2].href)]
   const availableDays = transformData.checkDays(calendarHTML)
   if (availableDays.length !== 0) {
-    process.stdout.write(`OK\n`)
+    process.stdout.write('OK\n')
     scrapeCinema(availableDays)
   } else {
-    process.stdout.write(`No available days\n`)
+    process.stdout.write('No available days\n')
   }
 }
 
@@ -52,9 +52,9 @@ async function scrapeDays () {
  * @param {Array} availableDays - All days when the friends are available at the same time.
  */
 async function scrapeCinema (availableDays) {
-  process.stdout.write(`Scraping showtimes... `)
+  process.stdout.write('Scraping showtimes... ')
 
-  let availableShowsRaw = []
+  const availableShowsRaw = []
   for (let i = 0; i < availableDays.length; i++) {
     for (let y = 1; y <= 3; y++) {
       availableShowsRaw.push(JSON.parse(await fetcher.HTMLfetcher(links[1].href + `/check?day=0${availableDays[i]}&movie=0${y}`)))
@@ -62,10 +62,10 @@ async function scrapeCinema (availableDays) {
   }
   const freeSeats = transformData.checkShows(availableShowsRaw)
   if (freeSeats.length !== 0) {
-    process.stdout.write(`OK\n`)
+    process.stdout.write('OK\n')
     scrapeDinner(freeSeats)
   } else {
-    process.stdout.write(`No available movies\n`)
+    process.stdout.write('No available movies\n')
   }
 }
 
@@ -75,24 +75,24 @@ async function scrapeCinema (availableDays) {
  * @param {Array} freeSeats - Available cinema seats.
  */
 async function scrapeDinner (freeSeats) {
-  process.stdout.write(`Scraping possible reservations... `)
+  process.stdout.write('Scraping possible reservations... ')
   const dinnerOptions = fetcher.elementExtractor(await fetcher.loginDinner(links[2].href), 'input')
   const possibleChoices = transformData.checkReservations(dinnerOptions, freeSeats)
   if (possibleChoices.length !== 0) {
-    process.stdout.write(`OK\n`)
-    process.stdout.write(`\n`)
-    process.stdout.write(`Recommendations\n`)
-    process.stdout.write(`===============\n`)
-    let message = transformData.convertMessage(possibleChoices)
+    process.stdout.write('OK\n')
+    process.stdout.write('\n')
+    process.stdout.write('Recommendations\n')
+    process.stdout.write('===============\n')
+    const message = transformData.convertMessage(possibleChoices)
     message.forEach(element => {
       console.log(element)
     })
-    process.stdout.write(`\n`)
+    process.stdout.write('\n')
     bookReservation(possibleChoices)
   } else {
-    process.stdout.write(`No available reservations\n`)
+    process.stdout.write('No available reservations\n')
   }
-  process.stdout.write(`\n`)
+  process.stdout.write('\n')
 }
 
 /**
@@ -106,7 +106,7 @@ function bookReservation (possibleChoices) {
     output: process.stdout
   })
 
-  readline.question(`Which table option do you want to book? 0(none)/1/2...)`, async (option) => {
+  readline.question('Which table option do you want to book? 0(none)/1/2...)', async (option) => {
     await reservationBooker.makeReservation(links[2].href, option, possibleChoices)
     readline.close()
   })

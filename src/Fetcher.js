@@ -29,8 +29,8 @@ function HTMLfetcher (link) {
  * @returns {Array} - Returns the an array of the specific node.
  */
 function elementExtractor (html, element = 'a') {
-  let data = []
-  let dom = new JSDOM(html)
+  const data = []
+  const dom = new JSDOM(html)
   for (let i = 0; i < dom.window.document.getElementsByTagName(element).length; i++) {
     data[i] = dom.window.document.getElementsByTagName(element)[i]
   }
@@ -44,14 +44,14 @@ function elementExtractor (html, element = 'a') {
  * @returns {string} - Returns a HTML of the redirected page after login.
  */
 function loginDinner (url) {
-  let options = {
+  const options = {
     method: 'POST',
     uri: url + '/login',
     simple: false,
     form: {
-      'username': 'zeke',
-      'password': 'coys',
-      'submit': 'login'
+      username: 'zeke',
+      password: 'coys',
+      submit: 'login'
     },
     followAllRedirects: true,
     jar: true
