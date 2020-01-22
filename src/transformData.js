@@ -1,5 +1,5 @@
 /**
- * Module to transform data
+ * Module to transform data.
  *
  * @author Rickard Marjanovic
  * @version 1.0.0
@@ -11,10 +11,10 @@
 const JSDOM = require('jsdom').JSDOM
 
 /**
- *Function to check the HTML pages and scrape when the specific person is available
+ *Function to check the HTML pages and scrape when the specific person is available.
  *
- * @param {string} html - HTML string of the page to be scraped
- * @returns {Array} - Returns an array of available days
+ * @param {string} html - HTML string of the page to be scraped.
+ * @returns {Array} - Returns an array of available days.
  */
 function checkDays (html) {
   let dom = []
@@ -50,10 +50,10 @@ function checkDays (html) {
 }
 
 /**
- *Function to scrape which possible shows can be watched by all friends
+ *Function to scrape which possible shows can be watched by all friends.
  *
- * @param {Array} availableShowsRaw - Array of available shows on a specific day
- * @returns {Array} - Array of shows that the friends can watch together
+ * @param {Array} availableShowsRaw - Array of available shows on a specific day.
+ * @returns {Array} - Array of shows that the friends can watch together.
  */
 function checkShows (availableShowsRaw) {
   let availableShows = []
@@ -74,11 +74,11 @@ function checkShows (availableShowsRaw) {
 }
 
 /**
- *Function to get all available options based on available reservations and available cinema seats
+ *Function to get all available options based on available reservations and available cinema seats.
  *
- * @param {string} dinnerOptions - Extracted input elements of available reservations
- * @param {Array} freeSeats - Extracted array of available seats
- * @returns {Array} - Returns an array of possible choices
+ * @param {string} dinnerOptions - Extracted input elements of available reservations.
+ * @param {Array} freeSeats - Extracted array of available seats.
+ * @returns {Array} - Returns an array of possible choices.
  */
 function checkReservations (dinnerOptions, freeSeats) {
   let possibleChoices = []
@@ -109,10 +109,10 @@ function checkReservations (dinnerOptions, freeSeats) {
 }
 
 /**
- *Function to convert array of possible choice to correct format for reporting to user
+ *Function to convert array of possible choice to correct format for reporting to user.
  *
- * @param {Array} possibleChoices - Possible choices in raw format
- * @returns {Array} - Returns possible choices in correct format for reporting to user
+ * @param {Array} possibleChoices - Possible choices in raw format.
+ * @returns {Array} - Returns possible choices in correct format for reporting to user.
  */
 function convertMessage (possibleChoices) {
   let message = []
