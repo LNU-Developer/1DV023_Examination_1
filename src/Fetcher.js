@@ -38,12 +38,13 @@ function elementExtractor (html, element = 'a') {
 }
 
 /**
- *Function to log in to HTTP page using a form and automatically redirect to get the HTML of the redirect.
+ * Function to log in to HTTP page using a form and automatically redirect to get the HTML of the redirect.
  *
  * @param {string} url - Link to the login page.
  * @returns {string} - Returns a HTML of the redirected page after login.
  */
 function loginDinner (url) {
+  const jar = rp.jar()
   const options = {
     method: 'POST',
     uri: url + '/login',
@@ -54,9 +55,9 @@ function loginDinner (url) {
       submit: 'login'
     },
     followAllRedirects: true,
-    jar: true
+    jar: jar
   }
-  return rp(options)
+  return { data: rp(options), cookie: jar }
 }
 
 // Exports

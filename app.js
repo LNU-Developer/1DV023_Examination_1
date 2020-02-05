@@ -76,7 +76,11 @@ async function scrapeCinema (availableDays) {
  */
 async function scrapeDinner (freeSeats) {
   process.stdout.write('Scraping possible reservations... ')
-  const dinnerOptions = fetcher.elementExtractor(await fetcher.loginDinner(links[2].href), 'input')
+
+  const obj = await fetcher.loginDinner(links[2].href).data
+  const dinnerOptions = await fetcher.elementExtractor(obj, 'input')
+  const cookie = await fetcher.loginDinner(links[2].href).cookie
+
   const possibleChoices = transformData.checkReservations(dinnerOptions, freeSeats)
   if (possibleChoices.length !== 0) {
     process.stdout.write('OK\n')
@@ -88,7 +92,7 @@ async function scrapeDinner (freeSeats) {
       console.log(element)
     })
     process.stdout.write('\n')
-    bookReservation(possibleChoices)
+    bookReservation(possibleChoices, cookie)
   } else {
     process.stdout.write('No available reservations\n')
   }
@@ -96,18 +100,29 @@ async function scrapeDinner (freeSeats) {
 }
 
 /**
- *Function to enable user to book a reservation based on input.
+ * Function to enable user to book a reservation based on input.
  *
  * @param {Array} possibleChoices - The array containing all possible userchoices.
+ * @param {object} cookie - A secret session cookie to be used in further requests.
  */
-function bookReservation (possibleChoices) {
+function bookReservation (possibleChoices, cookie) {
   const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
   })
 
   readline.question('Which table option do you want to book? 0(none)/1/2...)', async (option) => {
-    await reservationBooker.makeReservation(links[2].href, option, possibleChoices)
+    option = Number(option)
+    if (possibleChoices.length >= option && option !== 0) {
+      const dom = await reservationBooker.makeReservation(links[2].href, option, possibleChoices, cookie)
+      const data = []
+      for (let i = 0; i < dom.window.document.getElementsByTagName('h1').length; i++) {
+        data[i] = dom.window.document.getElementsByTagName('h1')[i]
+      }
+      console.log(data[0].textContent)
+    } else {
+      console.log('Booking attempt canceled, or incorrect selection')
+    }
     readline.close()
   })
 }
