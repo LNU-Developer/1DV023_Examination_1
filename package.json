@@ -13,7 +13,7 @@
     "url": "https://github.com/RMarjanovic/1DV023_Examination_1.git"
   },
   "engines": {
-    "node": ">=0.12.0"
+    "node": "^10"
   },
   "dependencies": {
     "@lnu/eslint-config": "^1.0.6",
