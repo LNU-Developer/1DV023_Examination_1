@@ -43,4 +43,4 @@ Skapade möjligheten att utföra en bokning.
 ### Feedback
 
 _Feedback to the course management about the assignment._
-Ni behöver lägga in mer tips om vilka moduler man kan använda och hur man använder sessionccookies.
+Ni behöver lägga in mer tips om vilka moduler man kan använda och hur man använder sessionccookies..
