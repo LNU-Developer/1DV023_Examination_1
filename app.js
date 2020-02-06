@@ -16,7 +16,7 @@ const reservationBooker = require('./src/reservationBooker')
 let links = []
 
 // Application start
-const startLink = process.argv.slice(2)[1] || 'http://vhost3.lnu.se:20080/weekend'
+const startLink = process.argv.slice(2)[0] || 'http://vhost3.lnu.se:20080/weekend'
 
 /**
  *Function to fetch starting links.
@@ -105,7 +105,7 @@ async function scrapeDinner (freeSeats) {
  * @param {Array} possibleChoices - The array containing all possible userchoices.
  * @param {object} cookie - A secret session cookie to be used in further requests.
  */
-function bookReservation (possibleChoices, cookie) {
+/* function bookReservation (possibleChoices, cookie) {
   const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
@@ -125,5 +125,5 @@ function bookReservation (possibleChoices, cookie) {
     }
     readline.close()
   })
-}
+} */
 scrapeLinks()
