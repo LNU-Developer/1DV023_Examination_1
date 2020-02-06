@@ -92,7 +92,7 @@ async function scrapeDinner (freeSeats) {
       console.log(element)
     })
     process.stdout.write('\n')
-    bookReservation(possibleChoices, cookie)
+    // bookReservation(possibleChoices, cookie)
   } else {
     process.stdout.write('No available reservations\n')
   }
