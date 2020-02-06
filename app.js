@@ -8,9 +8,9 @@
 'use strict'
 
 // Importing modules in the applications
-const fetcher = require('./src/fetcher.js')
-const transformData = require('./src/transformData.js')
-const reservationBooker = require('./src/reservationBooker.js')
+const fetcher = require('./src/Fetcher')
+const transformData = require('./src/transformData')
+const reservationBooker = require('./src/reservationBooker')
 
 // Global variables
 let links = []

@@ -28,7 +28,7 @@ Intressant uppgift med stort fokus på async await.
 ### Reflection
 
 _Your own thoughts on the assignment. What was hard, what have you learnt? What will could you have done differently?_
-Det som var svårast med uppgiften var utan tvekan att hålla session cookies för att identifiera sig. Tog ett tag innan jag redde ut att den var "secret". Vidare inmatningen från användaren att detta var en sträng skapade också problem.
+Det som var svårast med uppgiften var utan tvekan att hålla session cookies för att identifiera sig. Tog ett tag innan jag redde ut att den var "secret". Vidare inmatningen från användaren att detta var en sträng skapade också problem. Svårt att ändra filnamn, då jag vid första commit hade en ett namn med stor bokstav och sedan ändrade till liten när jag bestämde att modulen inte skulle vara en constructor/prototype. Gick dock inte att ändra och inte heller direkt i Gitlab.
 
 ### Further improvments
 
