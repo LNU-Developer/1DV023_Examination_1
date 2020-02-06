@@ -79,7 +79,7 @@ async function scrapeDinner (freeSeats) {
 
   const obj = await fetcher.loginDinner(links[2].href).data
   const dinnerOptions = await fetcher.elementExtractor(obj, 'input')
-  const cookie = await fetcher.loginDinner(links[2].href).cookie
+  // const cookie = await fetcher.loginDinner(links[2].href).cookie
 
   const possibleChoices = transformData.checkReservations(dinnerOptions, freeSeats)
   if (possibleChoices.length !== 0) {
