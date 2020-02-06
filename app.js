@@ -10,7 +10,7 @@
 // Importing modules in the applications
 const fetcher = require('./src/Fetcher')
 const transformData = require('./src/transformData')
-const reservationBooker = require('./src/reservationBooker')
+// const reservationBooker = require('./src/reservationBooker')
 
 // Global variables
 let links = []
