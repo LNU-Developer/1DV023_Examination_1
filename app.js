@@ -10,7 +10,7 @@
 // Importing modules in the applications
 const fetcher = require('./src/Fetcher')
 const transformData = require('./src/transformData')
-// const reservationBooker = require('./src/reservationBooker')
+const reservationBooker = require('./src/reservationBooker')
 
 // Global variables
 let links = []
@@ -79,7 +79,7 @@ async function scrapeDinner (freeSeats) {
 
   const obj = await fetcher.loginDinner(links[2].href).data
   const dinnerOptions = await fetcher.elementExtractor(obj, 'input')
-  // const cookie = await fetcher.loginDinner(links[2].href).cookie
+  const cookie = await fetcher.loginDinner(links[2].href).cookie
 
   const possibleChoices = transformData.checkReservations(dinnerOptions, freeSeats)
   if (possibleChoices.length !== 0) {
@@ -92,7 +92,7 @@ async function scrapeDinner (freeSeats) {
       console.log(element)
     })
     process.stdout.write('\n')
-    // bookReservation(possibleChoices, cookie)
+    bookReservation(possibleChoices, cookie)
   } else {
     process.stdout.write('No available reservations\n')
   }
@@ -105,7 +105,7 @@ async function scrapeDinner (freeSeats) {
  * @param {Array} possibleChoices - The array containing all possible userchoices.
  * @param {object} cookie - A secret session cookie to be used in further requests.
  */
-/* function bookReservation (possibleChoices, cookie) {
+function bookReservation (possibleChoices, cookie) {
   const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
@@ -125,5 +125,5 @@ async function scrapeDinner (freeSeats) {
     }
     readline.close()
   })
-} */
+}
 scrapeLinks()
