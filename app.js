@@ -8,7 +8,7 @@
 'use strict'
 
 // Importing modules in the applications
-const fetcher = require('./src/fetcher')
+const fetcher = require('./src/Fetcher')
 const transformData = require('./src/transformData')
 const reservationBooker = require('./src/reservationBooker')
 
@@ -16,7 +16,7 @@ const reservationBooker = require('./src/reservationBooker')
 let links = []
 
 // Application start
-const startLink = process.argv.slice(2)[1] || 'http://vhost3.lnu.se:20080/weekend'
+const startLink = process.argv.slice(2)[0] || 'http://vhost3.lnu.se:20080/weekend'
 
 /**
  *Function to fetch starting links.
