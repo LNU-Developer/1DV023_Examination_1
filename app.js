@@ -54,19 +54,19 @@ async function scrapeDays () {
 async function scrapeCinema (availableDays) {
   process.stdout.write('Scraping showtimes... ')
 
-  const availableShowsRaw = []
-  for (let i = 0; i < availableDays.length; i++) {
-    for (let y = 1; y <= 3; y++) {
-      availableShowsRaw.push(JSON.parse(await fetcher.HTMLfetcher(links[1].href + `/check?day=0${availableDays[i]}&movie=0${y}`)))
-    }
-  }
-
   const movieTitlesRaw = await fetcher.elementExtractor(await fetcher.HTMLfetcher(links[1].href), 'select')
 
   const movieTitles = []
 
   for (let i = 1; i < movieTitlesRaw[1].options.length; i++) {
     movieTitles.push({ movie: movieTitlesRaw[1].options[i].label, value: movieTitlesRaw[1].options[i].value })
+  }
+
+  const availableShowsRaw = []
+  for (let i = 0; i < availableDays.length; i++) {
+    for (let y = 1; y < movieTitlesRaw[1].options.length; y++) {
+      availableShowsRaw.push(JSON.parse(await fetcher.HTMLfetcher(links[1].href + `/check?day=0${availableDays[i]}&movie=0${y}`)))
+    }
   }
 
   const freeSeats = transformData.checkShows(availableShowsRaw)
