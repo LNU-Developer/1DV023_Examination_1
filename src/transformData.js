@@ -58,10 +58,11 @@ function checkDays (html) {
 function checkShows (availableShowsRaw) {
   const availableShows = []
   const freeSeats = []
+
   for (let i = 0; i < availableShowsRaw.length; i++) {
-    availableShows.push(availableShowsRaw[i].pop())
-    availableShows.push(availableShowsRaw[i].pop())
-    availableShows.push(availableShowsRaw[i].pop())
+    for (let y = 0; y < availableShowsRaw.length; y++) {
+      availableShows.push(availableShowsRaw[i].pop())
+    }
   }
 
   availableShows.forEach(element => {
