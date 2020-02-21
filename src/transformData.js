@@ -109,12 +109,13 @@ function checkReservations (dinnerOptions, freeSeats) {
 }
 
 /**
- *Function to convert array of possible choice to correct format for reporting to user.
+ * Function to convert array of possible choice to correct format for reporting to user.
  *
  * @param {Array} possibleChoices - Possible choices in raw format.
+ * @param {Array} movieTitles - All titles and HTML values of movies.
  * @returns {Array} - Returns possible choices in correct format for reporting to user.
  */
-function convertMessage (possibleChoices) {
+function convertMessage (possibleChoices, movieTitles) {
   const message = []
   possibleChoices.forEach(element => {
     if (element.day === '05') {
@@ -125,11 +126,11 @@ function convertMessage (possibleChoices) {
       element.day = 'Sunday'
     }
     if (element.movie === '01') {
-      element.movie = 'The Flying Deuces'
+      element.movie = movieTitles.find(x => x.value === '01').movie
     } else if (element.movie === '02') {
-      element.movie = 'Keep Your Seats, Please'
+      element.movie = movieTitles.find(x => x.value === '02').movie
     } else if (element.movie === '03') {
-      element.movie = 'A Day at the Races'
+      element.movie = movieTitles.find(x => x.value === '03').movie
     }
     message.push(`* On ${element.day} the movie "${element.movie}" starts at ${element.movieTime} and there is a free table between ${element.tableTime}-${Number(element.tableTime.substr(0, 2)) + 2}:00.`)
   })

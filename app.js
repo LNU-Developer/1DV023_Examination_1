@@ -60,21 +60,31 @@ async function scrapeCinema (availableDays) {
       availableShowsRaw.push(JSON.parse(await fetcher.HTMLfetcher(links[1].href + `/check?day=0${availableDays[i]}&movie=0${y}`)))
     }
   }
+
+  const movieTitlesRaw = await fetcher.elementExtractor(await fetcher.HTMLfetcher(links[1].href), 'select')
+
+  const movieTitles = []
+
+  for (let i = 1; i < movieTitlesRaw[1].options.length; i++) {
+    movieTitles.push({ movie: movieTitlesRaw[1].options[i].label, value: movieTitlesRaw[1].options[i].value })
+  }
+
   const freeSeats = transformData.checkShows(availableShowsRaw)
   if (freeSeats.length !== 0) {
     process.stdout.write('OK\n')
-    scrapeDinner(freeSeats)
+    scrapeDinner(freeSeats, movieTitles)
   } else {
     process.stdout.write('No available movies\n')
   }
 }
 
 /**
- *Function to scrape when there is a free table based on when the friends have available seats and to show available options.
+ * Function to scrape when there is a free table based on when the friends have available seats and to show available options.
  *
  * @param {Array} freeSeats - Available cinema seats.
+ * @param {Array} movieTitles - All titles and HTML values of movies.
  */
-async function scrapeDinner (freeSeats) {
+async function scrapeDinner (freeSeats, movieTitles) {
   process.stdout.write('Scraping possible reservations... ')
 
   const obj = await fetcher.loginDinner(links[2].href).data
@@ -87,7 +97,7 @@ async function scrapeDinner (freeSeats) {
     process.stdout.write('\n')
     process.stdout.write('Recommendations\n')
     process.stdout.write('===============\n')
-    const message = transformData.convertMessage(possibleChoices)
+    const message = transformData.convertMessage(possibleChoices, movieTitles)
     message.forEach(element => {
       console.log(element)
     })
